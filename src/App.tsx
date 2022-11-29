@@ -2,7 +2,7 @@ import './style.css';
 
 import styled from '@emotion/styled';
 import { keyframes, Global } from '@emotion/react';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 type Props = {
   count: number;
