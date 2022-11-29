@@ -34,7 +34,7 @@ const CountUpCss = styled.span<Props>`
   }
 `;
 
-const CountUpJsInnter = styled.span`
+const CountUpJsInner = styled.span`
   &::after {
     content: attr(data-number);
   }
@@ -68,7 +68,7 @@ const CountUpJs = ({ count, duration = 5 }: Props) => {
 
   return (
     <>
-      <CountUpJsInnter ref={ref} data-number="0" aria-hidden="true" />
+      <CountUpJsInner ref={ref} data-number="0" aria-hidden="true" />
       <span className="sr-only">{count}</span>
     </>
   );
