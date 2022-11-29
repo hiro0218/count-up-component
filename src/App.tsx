@@ -11,7 +11,7 @@ type Props = {
 
 const enableRegisterProperty =
   // @ts-ignore
-  typeof window.CSS.registerProperty !== 'undefined';
+  typeof window.CSS.registerProperty == 'undefined';
 
 const countAnimation = ({ count }: Props) => keyframes`
   from {
@@ -80,17 +80,19 @@ export default function App() {
 
   return (
     <>
-      <Global
-        styles={`
-          @property --count-number {
-            syntax: '<integer>';
-            initial-value: 0;
-            inherits: false;
-          }
-        `}
-      />
       {enableRegisterProperty ? (
-        <CountUpCss count={count} duration={duration} />
+        <>
+          <Global
+            styles={`
+              @property --count-number {
+                syntax: '<integer>';
+                initial-value: 0;
+                inherits: false;
+              }
+            `}
+          />
+          <CountUpCss count={count} duration={duration} />
+        </>
       ) : (
         <CountUpJs count={count} duration={duration} />
       )}
