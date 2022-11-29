@@ -11,7 +11,7 @@ type Props = {
 
 const enableRegisterProperty =
   // @ts-ignore
-  typeof window.CSS.registerProperty == 'undefined';
+  typeof window.CSS.registerProperty !== 'undefined';
 
 const countAnimation = ({ count }: Props) => keyframes`
   from {
