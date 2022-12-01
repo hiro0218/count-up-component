@@ -75,8 +75,10 @@ const CountUpJs = ({ count, duration = 5 }: Props) => {
 };
 
 export default function App() {
-  const count = 5000;
-  const duration = 5;
+  const option = {
+    count: 1000,
+    duration: 5,
+  };
 
   return (
     <>
@@ -84,17 +86,17 @@ export default function App() {
         <>
           <Global
             styles={`
-              @property --count-number {
-                syntax: '<integer>';
-                initial-value: 0;
-                inherits: false;
-              }
-            `}
+            @property --count-number {
+              syntax: '<integer>';
+              initial-value: 0;
+              inherits: false;
+            }
+          `}
           />
-          <CountUpCss count={count} duration={duration} />
+          <CountUpCss {...option} />
         </>
       ) : (
-        <CountUpJs count={count} duration={duration} />
+        <CountUpJs {...option} />
       )}
     </>
   );
