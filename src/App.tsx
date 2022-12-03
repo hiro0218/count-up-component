@@ -6,7 +6,6 @@ import React, { useEffect, useRef } from 'react';
 
 type Props = {
   count: number;
-  duration?: number;
 };
 
 const enableRegisterProperty =
@@ -25,8 +24,7 @@ const countAnimation = ({ count }: Props) => keyframes`
 const CountUpCss = styled.span<Props>`
   --count-number: ${(props) => props.count};
 
-  animation: ${countAnimation} ${(props) => props.duration ?? 5}s alternate
-    ease-in-out;
+  animation: ${countAnimation} 5s alternate linear;
   counter-reset: counter var(--count-number);
 
   &::after {
@@ -40,7 +38,7 @@ const CountUpJsInner = styled.span`
   }
 `;
 
-const CountUpJs = ({ count, duration = 5 }: Props) => {
+const CountUpJs = ({ count }: Props) => {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -60,11 +58,8 @@ const CountUpJs = ({ count, duration = 5 }: Props) => {
       }
     };
 
-    timerInterval = window.setInterval(
-      timer,
-      Math.trunc((duration * 500) / count),
-    );
-  }, [count, duration]);
+    timerInterval = window.setInterval(timer, Math.trunc(5000 / count));
+  }, [count]);
 
   return (
     <>
@@ -76,28 +71,26 @@ const CountUpJs = ({ count, duration = 5 }: Props) => {
 
 export default function App() {
   const option = {
-    count: 1000,
-    duration: 5,
+    count: 5000
   };
 
   return (
     <>
-      {enableRegisterProperty ? (
-        <>
-          <Global
-            styles={`
+      <Global
+        styles={`
             @property --count-number {
               syntax: '<integer>';
               initial-value: 0;
               inherits: false;
             }
           `}
-          />
-          <CountUpCss {...option} />
-        </>
-      ) : (
-        <CountUpJs {...option} />
-      )}
+      />
+      <div>
+        <code>CSS:&nbsp;</code><CountUpCss {...option} />
+      </div>
+      <div>
+        <code>JS:&nbsp;&nbsp;</code><CountUpJs {...option} />
+      </div>
     </>
   );
 }
