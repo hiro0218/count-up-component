@@ -40,28 +40,23 @@ const CountUpJsInner = styled.span`
 
 const CountUpJs = ({ count }: Props) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const refCount = useRef(0);
 
   useEffect(() => {
-    let timerInterval = -1;
+    let currentCount = 0;
 
     const timer = () => {
-      if (!ref.current) return;
+      const current = ref.current;
+      if (!current) return;
 
-      refCount.current = Number(ref.current.dataset.number);
-
-      if (refCount.current < count) {
-        ref.current.dataset.number = String(refCount.current + 1);
+      if (currentCount < count) {
+        current.dataset.number = String(currentCount + 1);
+        currentCount += 1;
       }
-
-      // if (counting >= count) {
-      //   window.clearInterval(timerInterval);
-      // }
     };
 
-    timerInterval = window.setInterval(timer, Math.trunc(5000 / count));
+    const timerInterval = setInterval(timer, Math.trunc(5000 / count));
 
-    return () => window.clearInterval(timerInterval);
+    return () => clearInterval(timerInterval);
   }, [count]);
 
   return (
