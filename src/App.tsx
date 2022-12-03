@@ -24,7 +24,7 @@ const countAnimation = ({ count }: Props) => keyframes`
 const CountUpCss = styled.span<Props>`
   --count-number: ${(props) => props.count};
 
-  animation: ${countAnimation} 5s alternate linear;
+  animation: ${countAnimation} 5000ms alternate linear;
   counter-reset: counter var(--count-number);
 
   &::after {
@@ -40,6 +40,7 @@ const CountUpJsInner = styled.span`
 
 const CountUpJs = ({ count }: Props) => {
   const ref = useRef<HTMLSpanElement>(null);
+  const refCount = useRef(0);
 
   useEffect(() => {
     let timerInterval = -1;
@@ -47,18 +48,20 @@ const CountUpJs = ({ count }: Props) => {
     const timer = () => {
       if (!ref.current) return;
 
-      const counting = Number(ref.current.dataset.number);
+      refCount.current = Number(ref.current.dataset.number);
 
-      if (counting < count) {
-        ref.current.dataset.number = String(counting + 1);
+      if (refCount.current < count) {
+        ref.current.dataset.number = String(refCount.current + 1);
       }
 
-      if (counting >= count) {
-        window.clearInterval(timerInterval);
-      }
+      // if (counting >= count) {
+      //   window.clearInterval(timerInterval);
+      // }
     };
 
     timerInterval = window.setInterval(timer, Math.trunc(5000 / count));
+
+    return () => window.clearInterval(timerInterval);
   }, [count]);
 
   return (
